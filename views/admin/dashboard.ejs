@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Starkit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div id="sidebar" class="w-64 bg-gray-900 text-white p-6 overflow-y-auto fixed left-0 top-0 h-screen transform -translate-x-full md:translate-x-0 transition-transform duration-300 z-40 md:relative md:translate-x-0">
+            <!-- Logo -->
+            <div class="mb-8 pb-6 border-b border-gray-700">
+                <h1 class="text-xl font-semibold">Starkit</h1>
+                <p class="text-xs text-gray-400 mt-1">Gestión</p>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="space-y-2">
+                <a href="/admin/dashboard" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-gray-800 text-white font-medium transition">
+                    <i class="fas fa-chart-line"></i>
+                    Dashboard
+                </a>
+                <a href="/admin/profile" class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800 transition">
+                    <i class="fas fa-user"></i>
+                    Mi Perfil
+                </a>
+            </nav>
+
+            <!-- Logout -->
+            <div class="mt-auto pt-6 border-t border-gray-700">
+                <a href="/auth/logout" class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800 transition w-full">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Cerrar Sesión
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 overflow-auto w-full">
+            <!-- Top Bar -->
+            <div class="bg-white shadow-sm border-b border-gray-200 p-6">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <button id="menuToggle" class="md:hidden text-gray-900 hover:text-gray-600 transition">
+                            <i class="fas fa-bars text-xl"></i>
+                        </button>
+                        <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
+                    </div>
+
+                    <!-- Right Section: Notifications & Avatar -->
+                    <div class="flex items-center gap-6">
+                        <!-- Notifications -->
+                        <div class="relative">
+                            <button id="notificationBtn" class="relative text-gray-600 hover:text-gray-900 transition">
+                                <i class="fas fa-bell text-xl"></i>
+                                <span class="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
+                            </button>
+
+                            <!-- Notification Dropdown -->
+                            <div id="notificationDropdown" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-20">
+                                <div class="p-4 border-b border-gray-200">
+                                    <h3 class="text-sm font-semibold text-gray-900">Notificaciones</h3>
+                                </div>
+                                <div class="max-h-96 overflow-y-auto">
+                                    <div class="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition">
+                                        <p class="text-sm font-medium text-gray-900">Nuevo usuario registrado</p>
+                                        <p class="text-xs text-gray-500 mt-1">Hace 5 minutos</p>
+                                    </div>
+                                    <div class="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition">
+                                        <p class="text-sm font-medium text-gray-900">Sistema actualizado</p>
+                                        <p class="text-xs text-gray-500 mt-1">Hace 2 horas</p>
+                                    </div>
+                                </div>
+                                <div class="p-4 border-t border-gray-200 text-center">
+                                    <a href="#" class="text-xs text-blue-600 hover:text-blue-700 font-medium">Ver todas</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Avatar -->
+                        <div class="relative">
+                            <button id="avatarBtn" class="flex items-center gap-2 hover:opacity-80 transition">
+                                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=<%= user?.id || 'Admin' %>&size=32" alt="Avatar" class="w-8 h-8 rounded-full border-2 border-gray-300">
+                            </button>
+
+                            <!-- Avatar Dropdown -->
+                            <div id="avatarDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-20">
+                                <div class="p-4 border-b border-gray-200">
+                                    <p class="text-sm font-semibold text-gray-900"><%= user?.fullname || 'Usuario' %></p>
+                                    <p class="text-xs text-gray-500"><%= user?.email || 'email@example.com' %></p>
+                                </div>
+                                <div class="p-2">
+                                    <a href="/admin/profile" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">
+                                        <i class="fas fa-user w-4"></i>
+                                        Mi Perfil
+                                    </a>
+                                    <a href="#" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition">
+                                        <i class="fas fa-gear w-4"></i>
+                                        Configuración
+                                    </a>
+                                </div>
+                                <div class="p-2 border-t border-gray-200">
+                                    <a href="/auth/logout" class="flex items-center gap-2 px-4 py-2 text-sm text-red-700 hover:bg-red-50 rounded transition">
+                                        <i class="fas fa-sign-out-alt w-4"></i>
+                                        Cerrar Sesión
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Overlay for mobile -->
+            <div id="overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 md:hidden z-30"></div>
+
+            <!-- Dashboard Content -->
+            <div class="p-6">
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                    <!-- Card 1 -->
+                    <div class="bg-white rounded-lg border border-gray-200 p-6">
+                        <p class="text-gray-600 text-sm font-medium">Usuarios Totales</p>
+                        <p class="text-3xl font-bold text-gray-900 mt-2">1,234</p>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="bg-white rounded-lg border border-gray-200 p-6">
+                        <p class="text-gray-600 text-sm font-medium">Activos Hoy</p>
+                        <p class="text-3xl font-bold text-gray-900 mt-2">456</p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="bg-white rounded-lg border border-gray-200 p-6">
+                        <p class="text-gray-600 text-sm font-medium">Nuevos Usuarios</p>
+                        <p class="text-3xl font-bold text-gray-900 mt-2">89</p>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="bg-white rounded-lg border border-gray-200 p-6">
+                        <p class="text-gray-600 text-sm font-medium">Pendientes</p>
+                        <p class="text-3xl font-bold text-gray-900 mt-2">23</p>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h2 class="text-lg font-semibold text-gray-900">Actividad Reciente</h2>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">Usuario</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">Acción</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">Fecha</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="text-sm font-medium text-gray-900">Juan Pérez</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="text-sm text-gray-600">Inició sesión</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="text-sm text-gray-600">Hace 2 horas</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">
+                                            Completado
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="text-sm font-medium text-gray-900">María García</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="text-sm text-gray-600">Se registró</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="text-sm text-gray-600">Hace 4 horas</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">
+                                            Completado
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const notificationBtn = document.getElementById('notificationBtn');
+        const notificationDropdown = document.getElementById('notificationDropdown');
+        const avatarBtn = document.getElementById('avatarBtn');
+        const avatarDropdown = document.getElementById('avatarDropdown');
+
+        // Menú hamburguesa
+        menuToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        });
+
+        overlay.addEventListener('click', function() {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+        });
+
+        // Cerrar sidebar al hacer clic en un enlace
+        document.querySelectorAll('#sidebar a').forEach(link => {
+            link.addEventListener('click', function() {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            });
+        });
+
+        // Notificaciones dropdown
+        notificationBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            notificationDropdown.classList.toggle('hidden');
+            avatarDropdown.classList.add('hidden');
+        });
+
+        // Avatar dropdown
+        avatarBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            avatarDropdown.classList.toggle('hidden');
+            notificationDropdown.classList.add('hidden');
+        });
+
+        // Cerrar dropdowns al hacer clic fuera
+        document.addEventListener('click', function() {
+            notificationDropdown.classList.add('hidden');
+            avatarDropdown.classList.add('hidden');
+        });
+
+        // Prevenir cerrar dropdown al hacer clic dentro
+        notificationDropdown.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        avatarDropdown.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>
